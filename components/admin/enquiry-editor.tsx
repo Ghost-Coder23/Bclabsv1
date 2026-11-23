@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Check, Save } from "lucide-react";
 import { enquiryStatuses, type EnquiryStatus } from "@/lib/admin/enquiries";
 
@@ -11,6 +12,7 @@ type EnquiryEditorProps = {
 };
 
 export function EnquiryEditor({ id, initialStatus, initialNotes }: EnquiryEditorProps) {
+  const router = useRouter();
   const [status, setStatus] = useState<EnquiryStatus>(initialStatus);
   const [notes, setNotes] = useState(initialNotes);
   const [saving, setSaving] = useState(false);
@@ -37,6 +39,7 @@ export function EnquiryEditor({ id, initialStatus, initialNotes }: EnquiryEditor
       }
 
       setSaved(true);
+      router.refresh();
     } catch {
       setError("The update could not be completed. Check your connection and try again.");
     } finally {
