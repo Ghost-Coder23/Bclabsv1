@@ -76,3 +76,18 @@ Scenes load close to the viewport, respond to pointer movement, pause when the b
 - Our Work
 - Insights
 - Contact
+
+## Interactive solution builder
+
+The homepage includes a visitor-facing system configurator. Visitors can select:
+
+- School management
+- Accounting & finance
+- Inventory
+- Sales & CRM
+- HR & payroll
+- Custom integrations
+
+Each selected module animates into position around the BC Labs core in the 3D preview. The **Request My Solution** link carries the selected module slugs to the contact page, where the service and project brief are prefilled.
+
+The builder does not quote prices or promise that every module can be combined without discovery. It captures the visitor's requirements for a scoping conversation.
