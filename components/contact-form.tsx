@@ -16,7 +16,8 @@ const serviceOptions = [
 ];
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "error" | "ready">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "error" | "success">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const [service, setService] = useState("");
   const [message, setMessage] = useState("");
 
@@ -40,36 +41,49 @@ export function ContactForm() {
     if (match) setService(match.value);
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     if (!form.reportValidity()) return;
 
-    const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
-    if (!email) {
-      setStatus("error");
-      return;
-    }
+    setStatus("submitting");
+    setErrorMessage("");
 
     const data = new FormData(form);
     const moduleSlugs = (new URLSearchParams(window.location.search).get("modules") ?? "").split(",").filter(Boolean);
     const selectedModules = systemModules.filter((module) => moduleSlugs.includes(module.slug));
-    const subject = encodeURIComponent("Project enquiry — " + String(data.get("name")));
-    const body = encodeURIComponent(
-      [
-        "Name: " + data.get("name"),
-        "Organisation: " + (data.get("organisation") || "Not provided"),
-        "Email: " + data.get("email"),
-        "Country: " + (data.get("country") || "Not provided"),
-        "Service: " + data.get("service"),
-        "Selected modules: " + (selectedModules.length ? selectedModules.map((module) => module.name).join(", ") : "Not specified"),
-        "",
-        "Project details:",
-        String(data.get("message")),
-      ].join("\n")
-    );
-    window.location.href = "mailto:" + email + "?subject=" + subject + "&body=" + body;
-    setStatus("ready");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          email: data.get("email"),
+          organisation: data.get("organisation"),
+          country: data.get("country"),
+          service: data.get("service"),
+          message: data.get("message"),
+          selected_modules: selectedModules.map((module) => module.slug),
+          website: data.get("website"),
+        }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setErrorMessage(result.error ?? "Your enquiry could not be sent. Please try again.");
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      form.reset();
+      setService("");
+      setMessage("");
+    } catch {
+      setErrorMessage("We could not connect to the enquiry service. Check your connection and try again.");
+      setStatus("error");
+    }
   }
 
   return (
@@ -77,21 +91,21 @@ export function ContactForm() {
       <div className="form-row">
         <label>
           Your name <span>*</span>
-          <input name="name" autoComplete="name" placeholder="e.g. Alex Morgan" required />
+          <input name="name" autoComplete="name" placeholder="e.g. Alex Morgan" required maxLength={140} />
         </label>
         <label>
           Work email <span>*</span>
-          <input name="email" type="email" autoComplete="email" placeholder="alex@company.com" required />
+          <input name="email" type="email" autoComplete="email" placeholder="alex@company.com" required maxLength={254} />
         </label>
       </div>
       <div className="form-row">
         <label>
           Organisation
-          <input name="organisation" autoComplete="organization" placeholder="Your company or organisation" />
+          <input name="organisation" autoComplete="organization" placeholder="Your company or organisation" maxLength={180} />
         </label>
         <label>
           Country
-          <input name="country" autoComplete="country-name" placeholder="Where are you based?" />
+          <input name="country" autoComplete="country-name" placeholder="Where are you based?" maxLength={100} />
         </label>
       </div>
       <label>
@@ -103,21 +117,24 @@ export function ContactForm() {
       </label>
       <label>
         Tell us about your project <span>*</span>
-        <textarea name="message" rows={5} value={message} onChange={(event) => setMessage(event.target.value)} placeholder="What are you trying to achieve? What challenge should we help solve?" required />
+        <textarea name="message" rows={5} value={message} onChange={(event) => setMessage(event.target.value)} placeholder="What are you trying to achieve? What challenge should we help solve?" required maxLength={8000} />
       </label>
+      <div className="contact-honeypot" aria-hidden="true">
+        <label>Leave this field empty<input name="website" tabIndex={-1} autoComplete="off" /></label>
+      </div>
       {status === "error" && (
-        <p className="form-notice form-notice-error" role="alert">
-          The enquiry form is ready, but the company email has not been configured yet. Configure NEXT_PUBLIC_CONTACT_EMAIL before launch so visitors can send their enquiry.
-        </p>
+        <p className="form-notice form-notice-error" role="alert">{errorMessage}</p>
       )}
-      {status === "ready" && (
+      {status === "success" && (
         <p className="form-notice form-notice-success" role="status">
-          Your email application should open with your enquiry prepared. Send it there to complete your message.
+          Thank you. Your enquiry has been received by BC Labs. We will review the details and follow up using the email address you provided.
         </p>
       )}
       <div className="form-submit-row">
         <p>We&apos;ll use your details only to respond to this enquiry.</p>
-        <button className="button button-dark" type="submit">Send enquiry <Send size={16} /></button>
+        <button className="button button-dark" type="submit" disabled={status === "submitting"}>
+          {status === "submitting" ? "Sending…" : status === "success" ? "Send another enquiry" : "Send enquiry"} <Send size={16} />
+        </button>
       </div>
     </form>
   );
