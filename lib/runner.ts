@@ -72,7 +72,7 @@ export function mount(el: HTMLElement, kind: string, options: MountOptions): Mou
     }
   };
 
-  function kick(frames = 90) {
+  function kick(frames = options.still ? 1 : 90) {
     framesToRender = Math.max(framesToRender, frames);
     last = performance.now();
     if (alive && !document.hidden && !raf) raf = requestAnimationFrame(render);
