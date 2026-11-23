@@ -23,9 +23,9 @@ export function ContactForm({ initialService = "", initialModules = [] }: Contac
     ? "Custom solution / multiple modules"
     : serviceOptions.find((option) => option.slug === initialService)?.value ?? "";
   const initialMessage = requestedModules.length > 0
-    ? "I would like to discuss a connected business system with these selected modules:\\n" +
-      requestedModules.map((module) => "- " + module.name).join("\\n") +
-      "\\n\\nA little about my organisation and the workflow I want to improve:\\n"
+    ? "I would like to discuss a connected business system with these selected modules:\n" +
+      requestedModules.map((module) => "- " + module.name).join("\n") +
+      "\n\nA little about my organisation and the workflow I want to improve:\n"
     : "";
   const [status, setStatus] = useState<"idle" | "submitting" | "error" | "success">("idle");
   const [errorMessage, setErrorMessage] = useState("");
