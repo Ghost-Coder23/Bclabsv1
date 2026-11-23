@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 82" fill="none">
+  <defs><linearGradient id="g" x1="8" y1="5" x2="56" y2="55" gradientUnits="userSpaceOnUse"><stop stop-color="#36D5F5"/><stop offset=".52" stop-color="#1769FF"/><stop offset="1" stop-color="#875CFF"/></linearGradient></defs>
+  <path d="M31.6 7.5H19.2C11.9 7.5 6 13.4 6 20.7v12.6c0 7.3 5.9 13.2 13.2 13.2h12.4" stroke="url(#g)" stroke-width="5.2" stroke-linecap="round"/>
+  <path d="M22.5 17.2h12.1c5.3 0 9.6 3.2 9.6 7.2s-4.3 7.2-9.6 7.2H22.5V17.2Z" stroke="#101827" stroke-width="4.4" stroke-linejoin="round"/>
+  <path d="M22.5 31.6h13.2c5.8 0 10.4 3.4 10.4 7.6s-4.6 7.6-10.4 7.6H22.5V31.6Z" stroke="#101827" stroke-width="4.4" stroke-linejoin="round"/>
+  <path d="M7.5 27h12" stroke="url(#g)" stroke-width="4.2" stroke-linecap="round"/>
+  <text x="72" y="39" font-family="Arial,sans-serif" font-size="29" font-weight="800" letter-spacing="-1.5" fill="#101827">BC LABS<tspan fill="#1769FF">.</tspan></text>
+  <text x="73" y="59" font-family="Arial,sans-serif" font-size="9" font-weight="700" letter-spacing="3.1" fill="#697586">&amp; CONSULTANCY</text>
+</svg>
