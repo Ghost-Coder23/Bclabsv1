@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type MotionProps } from "motion/react";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
 type RevealProps = {
@@ -8,7 +8,7 @@ type RevealProps = {
   className?: string;
   delay?: number;
   amount?: number;
-} & Pick<MotionProps, "whileInView">;
+};
 
 export function Reveal({ children, className, delay = 0, amount = 0.18 }: RevealProps) {
   return (
