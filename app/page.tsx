@@ -3,28 +3,13 @@ import {
   ArrowDown,
   ArrowRight,
   ArrowUpRight,
-  Boxes,
   Check,
-  Code2,
-  Cloud,
-  Compass,
-  GraduationCap,
-  Layers3,
-  Workflow,
 } from "lucide-react";
 import { HeroVisual } from "@/components/hero-visual";
+import { ServiceViz } from "@/components/service-viz";
 import { Reveal } from "@/components/reveal";
 import { BrandMark } from "@/components/brand-mark";
 import { services, processSteps, solutionAreas } from "@/lib/site";
-
-const iconMap = {
-  code: Code2,
-  layers: Layers3,
-  graduation: GraduationCap,
-  cloud: Cloud,
-  workflow: Workflow,
-  compass: Compass,
-};
 
 export default function HomePage() {
   return (
@@ -92,20 +77,25 @@ export default function HomePage() {
             </div>
           </Reveal>
           <div className="service-grid">
-            {services.map((service, index) => {
-              const Icon = iconMap[service.icon as keyof typeof iconMap] || Boxes;
-              return (
-                <Reveal key={service.number} delay={index * 0.055} className="service-card-wrap">
-                  <Link href="/services" className="service-card">
-                    <div className="service-card-top"><span>{service.number}</span><span className="service-icon"><Icon size={21} strokeWidth={1.7} /></span></div>
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
-                    <div className="service-tags">{service.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                    <span className="service-arrow"><ArrowUpRight size={18} /></span>
-                  </Link>
-                </Reveal>
-              );
-            })}
+            {services.map((service, index) => (
+              <Reveal key={service.slug} delay={index * 0.055} className="service-card-wrap">
+                <Link href={\`/services#\${service.slug}\`} className="service-card">
+                  <div className="service-card-top">
+                    <span>{service.number} / CAPABILITY</span>
+                    <span className="service-card-indicator"><span className="live-dot" /> INTERACTIVE</span>
+                  </div>
+                  <ServiceViz slug={service.slug} icon={service.icon} title={service.title} />
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <div className="service-tags">{service.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+                  <span className="service-arrow"><ArrowUpRight size={18} /></span>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+          <div className="service-grid-note">
+            <span>MOVE YOUR POINTER OVER A SERVICE VISUAL</span>
+            <span>Each capability has its own 3D story</span>
           </div>
         </div>
       </section>
@@ -125,7 +115,7 @@ export default function HomePage() {
           <div className="solution-grid">
             {solutionAreas.map((solution, index) => (
               <Reveal key={solution.code} delay={index * 0.08}>
-                <Link href="/solutions" className={`solution-card solution-${solution.tone}`}>
+                <Link href="/solutions" className={\`solution-card solution-\${solution.tone}\`}>
                   <div className="solution-card-top"><span>{solution.eyebrow}</span><span>{solution.code}</span></div>
                   <div className="solution-art" aria-hidden="true">
                     <div className="solution-art-ring" />
