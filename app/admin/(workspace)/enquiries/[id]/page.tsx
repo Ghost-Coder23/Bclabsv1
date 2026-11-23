@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Building2, Globe2, Mail, Package, Phone, UserRound } from "lucide-react";
+import { ArrowLeft, Building2, Globe2, Mail, Package, UserRound } from "lucide-react";
 import { notFound } from "next/navigation";
 import { EnquiryEditor } from "@/components/admin/enquiry-editor";
 import { formatEnquiryDate, statusLabel, type Enquiry } from "@/lib/admin/enquiries";
