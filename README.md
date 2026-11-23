@@ -17,42 +17,42 @@ The official website for BC Labs & Consultancy — a full-service technology com
 
 Requirements: Node.js 20.9 or newer.
 
-\`\`\`bash
+```bash
 npm install
 npm run dev
-\`\`\`
+```
 
 Open http://localhost:3000.
 
 ## Quality checks
 
-\`\`\`bash
+```bash
 npm run lint
 npm run typecheck
 npm run build
-\`\`\`
+```
 
-GitHub Actions runs linting, type checking and a production build on pushes and pull requests to \`main\`.
+GitHub Actions runs linting, type checking and a production build on pushes and pull requests to `main`.
 
 ## Environment
 
-Copy \`.env.example\` to \`.env.local\` and configure:
+Copy `.env.example` to `.env.local` and configure:
 
-- \`NEXT_PUBLIC_CONTACT_EMAIL\` — required for the current mailto-based project enquiry form.
-- \`NEXT_PUBLIC_SITE_URL\` — canonical production URL used for metadata and sitemap generation.
+- `NEXT_PUBLIC_CONTACT_EMAIL` — required for the current mailto-based project enquiry form.
+- `NEXT_PUBLIC_SITE_URL` — canonical production URL used for metadata and sitemap generation.
 
 No client logos, testimonials or project results are fabricated. The public portfolio and editorial topics are clearly marked as being prepared.
 
 ## Brand system
 
-- Midnight navy: \`#080D1B\`
-- Deep navy: \`#0D1425\`
-- Electric blue: \`#1769FF\`
-- Cyan: \`#36D5F5\`
-- Violet: \`#875CFF\`
+- Midnight navy: `#080D1B`
+- Deep navy: `#0D1425`
+- Electric blue: `#1769FF`
+- Cyan: `#36D5F5`
+- Violet: `#875CFF`
 - Space Grotesk + Inter
 
-The supplied BC Labs logo and monogram are in \`public/brand\`.
+The supplied BC Labs logo and monogram are in `public/brand`.
 
 ## 3D service experience
 
