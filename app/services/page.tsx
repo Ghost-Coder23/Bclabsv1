@@ -31,7 +31,7 @@ export default function ServicesPage() {
               <Reveal
                 key={service.slug}
                 delay={index * 0.04}
-                className={\`service-feature \${index % 2 === 1 ? "service-feature-reverse" : ""}\`}
+                className={`service-feature ${index % 2 === 1 ? "service-feature-reverse" : ""}`}
               >
                 <div className="service-feature-copy">
                   <span className="eyebrow">{service.number} / {service.title}</span>
@@ -61,7 +61,7 @@ export default function ServicesPage() {
                       {service.includes.map((item) => <span key={item}>{item}</span>)}
                     </div>
                   </div>
-                  <Link href={\`/contact?service=\${service.slug}\`} className="button button-dark service-feature-cta">
+                  <Link href={`/contact?service=${service.slug}`} className="button button-dark service-feature-cta">
                     Discuss this service <ArrowUpRight size={16} />
                   </Link>
                 </div>
