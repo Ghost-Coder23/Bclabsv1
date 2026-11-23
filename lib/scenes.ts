@@ -170,6 +170,7 @@ const builder: Make = (scene) => {
         opacity: 0,
       })
     );
+    line.frustumCulled = false;
     g.add(line);
 
     return { id, cube, line, from, to, progress: 0 };
@@ -224,6 +225,7 @@ const builder: Make = (scene) => {
 
 export const scenes: Record<string, Make> = {
   hero,
+  builder,
   "custom-software": customSoftware,
   "erp-odoo": erp,
   "education-technology": edu,
