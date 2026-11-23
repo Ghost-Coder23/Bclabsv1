@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
 import { systemModules } from "@/lib/system-builder";
 
@@ -15,31 +15,22 @@ const serviceOptions = [
   { slug: "not-sure", value: "Not sure yet" },
 ];
 
-export function ContactForm() {
+type ContactFormProps = { initialService?: string; initialModules?: string[] };
+
+export function ContactForm({ initialService = "", initialModules = [] }: ContactFormProps) {
+  const requestedModules = systemModules.filter((module) => initialModules.includes(module.slug));
+  const requestedService = requestedModules.length > 0
+    ? "Custom solution / multiple modules"
+    : serviceOptions.find((option) => option.slug === initialService)?.value ?? "";
+  const initialMessage = requestedModules.length > 0
+    ? "I would like to discuss a connected business system with these selected modules:\\n" +
+      requestedModules.map((module) => "- " + module.name).join("\\n") +
+      "\\n\\nA little about my organisation and the workflow I want to improve:\\n"
+    : "";
   const [status, setStatus] = useState<"idle" | "submitting" | "error" | "success">("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [service, setService] = useState("");
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const moduleSlugs = (params.get("modules") ?? "").split(",").filter(Boolean);
-    const selectedModules = systemModules.filter((module) => moduleSlugs.includes(module.slug));
-
-    if (selectedModules.length > 0) {
-      setService("Custom solution / multiple modules");
-      setMessage(
-        "I would like to discuss a connected business system with these selected modules:\n" +
-        selectedModules.map((module) => "- " + module.name).join("\n") +
-        "\n\nA little about my organisation and the workflow I want to improve:\n"
-      );
-      return;
-    }
-
-    const requested = params.get("service");
-    const match = serviceOptions.find((option) => option.slug === requested);
-    if (match) setService(match.value);
-  }, []);
+  const [service, setService] = useState(requestedService);
+  const [message, setMessage] = useState(initialMessage);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,8 +41,7 @@ export function ContactForm() {
     setErrorMessage("");
 
     const data = new FormData(form);
-    const moduleSlugs = (new URLSearchParams(window.location.search).get("modules") ?? "").split(",").filter(Boolean);
-    const selectedModules = systemModules.filter((module) => moduleSlugs.includes(module.slug));
+    const selectedModules = requestedModules;
 
     try {
       const response = await fetch("/api/contact", {
