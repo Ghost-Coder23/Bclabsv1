@@ -6,7 +6,7 @@ import {
   Check,
 } from "lucide-react";
 import { HeroVisual } from "@/components/hero-visual";
-import { ServiceViz } from "@/components/service-viz";
+import ServiceViz from "@/components/service-viz";
 import { Reveal } from "@/components/reveal";
 import { BrandMark } from "@/components/brand-mark";
 import { services, processSteps, solutionAreas } from "@/lib/site";
