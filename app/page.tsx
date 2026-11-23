@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { HeroVisual } from "@/components/hero-visual";
 import ServiceViz from "@/components/service-viz";
+import SystemBuilder from "@/components/system-builder";
 import { Reveal } from "@/components/reveal";
 import { BrandMark } from "@/components/brand-mark";
 import { services, processSteps, solutionAreas } from "@/lib/site";
@@ -99,6 +100,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <SystemBuilder />
 
       <section className="solutions-section section-pad">
         <div className="container">
