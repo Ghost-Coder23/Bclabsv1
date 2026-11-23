@@ -32,7 +32,7 @@ export function mount(el: HTMLElement, kind: string, options: MountOptions): Mou
   const position = object.camera ?? [0, 0, 6.4];
   camera.position.set(position[0], position[1], position[2]);
 
-  const frame = { t: 0, dt: 0, px: 0, py: 0, hover: 0, cam: camera };
+  const frame = { t: 0, dt: 0, px: 0, py: 0, hover: 0, cam: camera, still: options.still };
   let targetX = 0;
   let targetY = 0;
   let targetHover = 0;
