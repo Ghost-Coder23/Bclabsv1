@@ -95,12 +95,12 @@ The builder does not quote prices or promise that every module can be combined w
 
 ## Private admin dashboard
 
-The owner workspace is available at `/admin`. It includes enquiry totals, a recent activity view, the full enquiry pipeline, status tracking and private internal notes. Public contact-form submissions are written to Supabase rather than handed off to the visitor's email application.
+The owner workspace is available at `/admin`. It includes enquiry totals, a recent activity view, the full enquiry pipeline, status tracking, private internal notes and a website content manager for project stories and insight articles. Administrators can save drafts and publish approved content to the public Our Work and Insights pages. Public contact-form submissions are written to Supabase rather than handed off to the visitor's email application.
 
 ### Supabase setup
 
 1. Create a Supabase project for BC Labs.
-2. Open the Supabase SQL Editor and run `supabase/migrations/20261123000100_contact_submissions.sql`.
+2. Open the Supabase SQL Editor and run both migrations in order: `supabase/migrations/20261123000100_contact_submissions.sql`, then `supabase/migrations/20261123000200_site_content.sql`.
 3. In Supabase Authentication, create the owner account with email and password. Disable public sign-ups; administrator accounts should be created by the owner.
 4. Add the following environment variables to Vercel and your local `.env.local`:
    - `NEXT_PUBLIC_SUPABASE_URL`
@@ -109,4 +109,4 @@ The owner workspace is available at `/admin`. It includes enquiry totals, a rece
    - `ADMIN_EMAILS` — comma-separated allowlist of administrator email addresses.
 5. Redeploy the site and sign in at `/admin/login`.
 
-The contact submissions table has row-level security enabled and denies direct browser access to public and authenticated roles. The public form can only submit through the validated Next.js contact endpoint. Dashboard reads and updates require a verified Supabase session and an email match against `ADMIN_EMAILS`. The service-role key remains server-side and must never be added to a `NEXT_PUBLIC_` variable.
+The contact submissions table has row-level security enabled and denies direct browser access to public and authenticated roles. The site content table allows public reads of published entries only; draft content and all writes remain restricted to the server-side administrator. The public form can only submit through the validated Next.js contact endpoint. Dashboard reads and updates require a verified Supabase session and an email match against `ADMIN_EMAILS`. The service-role key remains server-side and must never be added to a `NEXT_PUBLIC_` variable.

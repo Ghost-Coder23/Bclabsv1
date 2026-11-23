@@ -9,7 +9,13 @@ export const metadata: Metadata = {
   description: "Start a conversation with BC Labs & Consultancy about software development, ERP, education technology, cloud and digital transformation.",
 };
 
-export default function ContactPage() {
+type ContactPageProps = { searchParams: Promise<{ service?: string; modules?: string }> };
+
+export default async function ContactPage({ searchParams }: ContactPageProps) {
+  const params = await searchParams;
+  const initialModules = (params.modules ?? "").split(",").filter(Boolean);
+  const initialService = params.service ?? "";
+
   return (
     <>
       <PageIntro eyebrow="CONTACT BC LABS" title="Tell us what you" highlight="want to make possible." description="Whether you have a defined project or are still exploring an idea, start with a conversation. We would like to understand what you are trying to achieve." />
@@ -19,7 +25,7 @@ export default function ContactPage() {
           <div className="contact-info-card"><span><Globe2 size={19} /></span><div><strong>A global outlook</strong><p>BC Labs works towards serving clients across Africa and international markets.</p></div></div>
           <div className="contact-aside-note">Not sure which service fits? Choose “Not sure yet” in the form. We can start by understanding the problem.</div>
         </Reveal>
-        <Reveal delay={.12} className="contact-form-panel"><div className="contact-form-heading"><span className="eyebrow">PROJECT ENQUIRY</span><h2>Let&apos;s talk.</h2><p>Fields marked with * are required.</p></div><ContactForm /></Reveal>
+        <Reveal delay={.12} className="contact-form-panel"><div className="contact-form-heading"><span className="eyebrow">PROJECT ENQUIRY</span><h2>Let&apos;s talk.</h2><p>Fields marked with * are required.</p></div><ContactForm initialService={initialService} initialModules={initialModules} /></Reveal>
       </div></section>
     </>
   );

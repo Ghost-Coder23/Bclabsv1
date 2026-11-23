@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Activity, ArrowUpRight, Inbox, LayoutDashboard, LogOut, ShieldCheck } from "lucide-react";
+import { Activity, ArrowUpRight, FileText, Inbox, LayoutDashboard, LogOut, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 import { signOutAdmin } from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/admin/access";
@@ -22,6 +22,7 @@ export default async function AdminWorkspaceLayout({ children }: Readonly<{ chil
         <nav className="admin-sidebar-nav" aria-label="Admin navigation">
           <Link href="/admin" className="admin-nav-link"><LayoutDashboard size={17} /> Overview</Link>
           <Link href="/admin/enquiries" className="admin-nav-link"><Inbox size={17} /> Enquiries</Link>
+          <Link href="/admin/content" className="admin-nav-link"><FileText size={17} /> Website content</Link>
         </nav>
         <div className="admin-sidebar-bottom">
           <div className="admin-security-note"><ShieldCheck size={16} /><span>Private owner access</span></div>

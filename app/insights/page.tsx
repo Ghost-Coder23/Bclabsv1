@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, BookOpen, Lightbulb, Radio } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 import { Reveal } from "@/components/reveal";
+import { getPublishedContent } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -15,13 +16,14 @@ const topics = [
   { icon: Radio, category: "DIGITAL TRANSFORMATION", title: "Moving from disconnected tools to connected workflows", description: "Why integration and good information flow matter to everyday operations." },
 ];
 
-export default function InsightsPage() {
+export default async function InsightsPage() {
+  const articles = await getPublishedContent("article");
+
   return (
     <>
       <PageIntro eyebrow="INSIGHTS & IDEAS" title="Ideas for a more" highlight="connected future." description="Practical perspectives on software, business technology and the decisions that help organisations make meaningful progress." />
       <section className="section-pad"><div className="container">
-        <Reveal className="section-heading-row"><div><span className="eyebrow">TOPICS WE EXPLORE</span><h2>Useful thinking.<br /><em>Real-world context.</em></h2></div><div className="section-heading-aside"><p>Our editorial library is being prepared. These are the themes we will be exploring — not published articles or client case studies.</p></div></Reveal>
-        <div className="insights-grid">{topics.map((item, index) => { const Icon = item.icon; return <Reveal key={item.title} delay={index * .08} className="insight-card"><span className="insight-icon"><Icon size={22} /></span><span className="eyebrow">{item.category}</span><h3>{item.title}</h3><p>{item.description}</p><span className="insight-coming">EDITORIAL TOPIC / COMING SOON</span></Reveal>; })}</div>
+        {articles.length > 0 ? <><Reveal className="section-heading-row"><div><span className="eyebrow">PUBLISHED INSIGHTS</span><h2>Ideas with<br /><em>practical value.</em></h2></div><div className="section-heading-aside"><p>Articles and perspectives published by BC Labs. More will be added as our editorial library grows.</p></div></Reveal><div className="published-content-grid">{articles.map((item) => <Link className="published-content-card" href={"/insights/" + item.slug} key={item.id}><span>{item.category || "BC LABS INSIGHT"}</span><h3>{item.title}</h3><p>{item.summary}</p><strong>Read article <ArrowUpRight size={14} /></strong></Link>)}</div></> : <><Reveal className="section-heading-row"><div><span className="eyebrow">TOPICS WE EXPLORE</span><h2>Useful thinking.<br /><em>Real-world context.</em></h2></div><div className="section-heading-aside"><p>Our editorial library is being prepared. These are the themes we plan to explore — not published articles or client case studies.</p></div></Reveal><div className="insights-grid">{topics.map((item, index) => { const Icon = item.icon; return <Reveal key={item.title} delay={index * .08} className="insight-card"><span className="insight-icon"><Icon size={22} /></span><span className="eyebrow">{item.category}</span><h3>{item.title}</h3><p>{item.description}</p><span className="insight-coming">EDITORIAL TOPIC / COMING SOON</span></Reveal>; })}</div></>}
         <div className="insights-contact"><p>Have a question or a topic you would like us to explore?</p><Link href="/contact" className="text-link">Share it with BC Labs <ArrowUpRight size={16} /></Link></div>
       </div></section>
     </>
