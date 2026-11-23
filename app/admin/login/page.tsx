@@ -22,7 +22,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
 
   return (
-    <main className="admin-login-page">
+    <section className="admin-login-page">
       <div className="admin-login-glow" />
       <div className="admin-login-card">
         <Link href="/" className="admin-back-link"><ArrowLeft size={15} /> Back to BC Labs website</Link>
@@ -53,6 +53,6 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           </>
         )}
       </div>
-    </main>
+    </section>
   );
 }
