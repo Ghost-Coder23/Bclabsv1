@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 export type Inputs = { progress: number; selected: string[] };
-export type Frame = { t: number; dt: number; px: number; py: number; hover: number; cam: THREE.PerspectiveCamera };
+export type Frame = { t: number; dt: number; px: number; py: number; hover: number; cam: THREE.PerspectiveCamera; still?: boolean };
 export type Obj = { camera?: [number, number, number]; update: (f: Frame, i: Inputs) => void };
 export type Make = (scene: THREE.Scene) => Obj;
 
@@ -186,7 +186,7 @@ const builder: Make = (scene) => {
         if (selected) selectedCount += 1;
 
         const target = selected ? 1 : 0;
-        item.progress += (target - item.progress) * Math.min(1, f.dt * 3.6);
+        item.progress = f.still ? target : item.progress + (target - item.progress) * Math.min(1, f.dt * 3.6);
         const amount = ease(clamp(item.progress, 0, 1));
 
         item.cube.visible = item.progress > 0.012;
@@ -213,7 +213,8 @@ const builder: Make = (scene) => {
       core.scale.setScalar(1 + selectedCount * 0.025);
 
       const ringMaterial = ring.material as THREE.MeshBasicMaterial;
-      ringMaterial.opacity = lerp(ringMaterial.opacity, selectedCount ? 0.28 + selectedCount * 0.035 : 0.1, 0.06);
+      const ringTarget = selectedCount ? 0.28 + selectedCount * 0.035 : 0.1;
+      ringMaterial.opacity = f.still ? ringTarget : lerp(ringMaterial.opacity, ringTarget, 0.06);
       tiltedRing.rotation.y = 0.2 + f.t * 0.055;
       particles.rotation.y -= f.dt * 0.018;
 
