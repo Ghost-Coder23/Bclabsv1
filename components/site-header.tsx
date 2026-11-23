@@ -11,11 +11,13 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <header className="site-header">
       <div className="nav-shell">
         <BrandMark />
-        <nav className={`main-nav ${open ? "main-nav-open" : ""}`} aria-label="Main navigation">
+        <nav className={"main-nav " + (open ? "main-nav-open" : "")} aria-label="Main navigation">
           {siteConfig.navigation.map((item) => {
             const active = pathname === item.href;
             return (
