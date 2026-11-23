@@ -91,3 +91,22 @@ The homepage includes a visitor-facing system configurator. Visitors can select:
 Each selected module animates into position around the BC Labs core in the 3D preview. The **Request My Solution** link carries the selected module slugs to the contact page, where the service and project brief are prefilled.
 
 The builder does not quote prices or promise that every module can be combined without discovery. It captures the visitor's requirements for a scoping conversation.
+
+
+## Private admin dashboard
+
+The owner workspace is available at \`/admin\`. It includes enquiry totals, a recent activity view, the full enquiry pipeline, status tracking and private internal notes. Public contact-form submissions are written to Supabase rather than handed off to the visitor's email application.
+
+### Supabase setup
+
+1. Create a Supabase project for BC Labs.
+2. Open the Supabase SQL Editor and run \`supabase/migrations/20261123000100_contact_submissions.sql\`.
+3. In Supabase Authentication, create the owner account with email and password. Disable public sign-ups; administrator accounts should be created by the owner.
+4. Add the following environment variables to Vercel and your local \`.env.local\`:
+   - \`NEXT_PUBLIC_SUPABASE_URL\`
+   - \`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY\`
+   - \`SUPABASE_SERVICE_ROLE_KEY\` — server-side only; never expose this in browser code.
+   - \`ADMIN_EMAILS\` — comma-separated allowlist of administrator email addresses.
+5. Redeploy the site and sign in at \`/admin/login\`.
+
+The contact submissions table has row-level security enabled and denies direct access to public and authenticated browser roles. The Next.js server uses the service-role key only after validating admin access. Never add the service-role key to a \`NEXT_PUBLIC_\` variable.
