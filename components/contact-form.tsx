@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
+import { systemModules } from "@/lib/system-builder";
 
 const serviceOptions = [
   { slug: "custom-software", value: "Custom software development" },
@@ -10,15 +11,31 @@ const serviceOptions = [
   { slug: "cloud-devops", value: "Cloud & DevOps" },
   { slug: "automation-integrations", value: "Automation & integrations" },
   { slug: "it-consultancy", value: "Technology consultancy" },
+  { slug: "custom-solution", value: "Custom solution / multiple modules" },
   { slug: "not-sure", value: "Not sure yet" },
 ];
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "error" | "ready">("idle");
   const [service, setService] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const requested = new URLSearchParams(window.location.search).get("service");
+    const params = new URLSearchParams(window.location.search);
+    const moduleSlugs = (params.get("modules") ?? "").split(",").filter(Boolean);
+    const selectedModules = systemModules.filter((module) => moduleSlugs.includes(module.slug));
+
+    if (selectedModules.length > 0) {
+      setService("Custom solution / multiple modules");
+      setMessage(
+        "I would like to discuss a connected business system with these selected modules:\n" +
+        selectedModules.map((module) => "- " + module.name).join("\n") +
+        "\n\nA little about my organisation and the workflow I want to improve:\n"
+      );
+      return;
+    }
+
+    const requested = params.get("service");
     const match = serviceOptions.find((option) => option.slug === requested);
     if (match) setService(match.value);
   }, []);
@@ -35,20 +52,23 @@ export function ContactForm() {
     }
 
     const data = new FormData(form);
-    const subject = encodeURIComponent(`Project enquiry — ${String(data.get("name"))}`);
+    const moduleSlugs = (new URLSearchParams(window.location.search).get("modules") ?? "").split(",").filter(Boolean);
+    const selectedModules = systemModules.filter((module) => moduleSlugs.includes(module.slug));
+    const subject = encodeURIComponent("Project enquiry — " + String(data.get("name")));
     const body = encodeURIComponent(
       [
-        `Name: ${data.get("name")}`,
-        `Organisation: ${data.get("organisation") || "Not provided"}`,
-        `Email: ${data.get("email")}`,
-        `Country: ${data.get("country") || "Not provided"}`,
-        `Service: ${data.get("service")}`,
+        "Name: " + data.get("name"),
+        "Organisation: " + (data.get("organisation") || "Not provided"),
+        "Email: " + data.get("email"),
+        "Country: " + (data.get("country") || "Not provided"),
+        "Service: " + data.get("service"),
+        "Selected modules: " + (selectedModules.length ? selectedModules.map((module) => module.name).join(", ") : "Not specified"),
         "",
         "Project details:",
         String(data.get("message")),
       ].join("\n")
     );
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    window.location.href = "mailto:" + email + "?subject=" + subject + "&body=" + body;
     setStatus("ready");
   }
 
@@ -83,7 +103,7 @@ export function ContactForm() {
       </label>
       <label>
         Tell us about your project <span>*</span>
-        <textarea name="message" rows={5} placeholder="What are you trying to achieve? What challenge should we help solve?" required />
+        <textarea name="message" rows={5} value={message} onChange={(event) => setMessage(event.target.value)} placeholder="What are you trying to achieve? What challenge should we help solve?" required />
       </label>
       {status === "error" && (
         <p className="form-notice form-notice-error" role="alert">
