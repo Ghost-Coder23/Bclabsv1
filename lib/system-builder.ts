@@ -3,7 +3,7 @@ export const systemModules = [
     slug: "school-management",
     name: "School management",
     description: "Student records, admissions, academic administration and school operations.",
-    color: "#438BFF",
+    color: "#1769FF",
     category: "EDUCATION",
   },
   {
@@ -24,7 +24,7 @@ export const systemModules = [
     slug: "sales-crm",
     name: "Sales & CRM",
     description: "Leads, customers, quotations, sales pipelines and follow-ups.",
-    color: "#6FE0F7",
+    color: "#438BFF",
     category: "CUSTOMERS",
   },
   {
