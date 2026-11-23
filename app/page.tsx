@@ -10,6 +10,7 @@ import ServiceViz from "@/components/service-viz";
 import SystemBuilder from "@/components/system-builder";
 import { Reveal } from "@/components/reveal";
 import { BrandMark } from "@/components/brand-mark";
+import { ProductShowcase } from "@/components/product-showcase";
 import { services, processSteps, solutionAreas } from "@/lib/site";
 
 export default function HomePage() {
@@ -20,12 +21,12 @@ export default function HomePage() {
         <div className="hero-container">
           <div className="hero-copy">
             <div className="hero-kicker"><span className="live-dot" /> INDEPENDENT TECHNOLOGY PARTNER</div>
-            <h1>Technology<br />without <span>boundaries.</span></h1>
+            <h1>We build<br />software that moves<br /><span>business forward.</span></h1>
             <p className="hero-lede">
-              We engineer intelligent software, powerful business systems and digital experiences that help organisations operate smarter, scale with confidence and move what&apos;s possible forward.
+              Custom software, Odoo ERP, school management systems and business automation — built around how your organisation works.
             </p>
             <div className="hero-actions">
-              <Link href="/contact" className="button button-primary">Start a project <ArrowUpRight size={17} /></Link>
+              <Link href="#build" className="button button-primary">Build your solution <ArrowUpRight size={17} /></Link>
               <Link href="/services" className="button button-ghost-light">Explore our services <ArrowRight size={16} /></Link>
             </div>
             <div className="hero-proof">
@@ -102,6 +103,8 @@ export default function HomePage() {
       </section>
 
       <SystemBuilder />
+
+      <ProductShowcase />
 
       <section className="solutions-section section-pad">
         <div className="container">
