@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Activity, ArrowUpRight, Inbox, LayoutDashboard, LogOut, ShieldCheck } from "lucide-react";
+import type { ReactNode } from "react";
 import { signOutAdmin } from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/admin/access";
 
@@ -7,7 +8,7 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function AdminWorkspaceLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function AdminWorkspaceLayout({ children }: Readonly<{ children: ReactNode }>) {
   const admin = await requireAdmin();
 
   return (
@@ -39,7 +40,7 @@ export default async function AdminWorkspaceLayout({ children }: Readonly<{ chil
           <div><span className="admin-topbar-dot" /> BC LABS / ADMIN</div>
           <span><Activity size={14} /> Private workspace</span>
         </header>
-        <main className="admin-content">{children}</main>
+        <div className="admin-content">{children}</div>
       </div>
     </div>
   );
