@@ -78,7 +78,7 @@ export default function Canvas3D({
   return (
     <div
       ref={ref}
-      className={\`canvas-3d \${className} \${live ? "canvas-3d-live" : ""}\`}
+      className={`canvas-3d ${className} ${live ? "canvas-3d-live" : ""}`}
       role="img"
       aria-label={label}
     >
