@@ -79,7 +79,7 @@ export default function HomePage() {
           <div className="service-grid">
             {services.map((service, index) => (
               <Reveal key={service.slug} delay={index * 0.055} className="service-card-wrap">
-                <Link href={\`/services#\${service.slug}\`} className="service-card">
+                <Link href={`/services#${service.slug}`} className="service-card">
                   <div className="service-card-top">
                     <span>{service.number} / CAPABILITY</span>
                     <span className="service-card-indicator"><span className="live-dot" /> INTERACTIVE</span>
@@ -115,7 +115,7 @@ export default function HomePage() {
           <div className="solution-grid">
             {solutionAreas.map((solution, index) => (
               <Reveal key={solution.code} delay={index * 0.08}>
-                <Link href="/solutions" className={\`solution-card solution-\${solution.tone}\`}>
+                <Link href="/solutions" className={`solution-card solution-${solution.tone}`}>
                   <div className="solution-card-top"><span>{solution.eyebrow}</span><span>{solution.code}</span></div>
                   <div className="solution-art" aria-hidden="true">
                     <div className="solution-art-ring" />
