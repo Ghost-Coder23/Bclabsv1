@@ -41,7 +41,7 @@ export async function getAdminAccess() {
 export async function requireAdmin() {
   const access = await getAdminAccess();
   if (!access.user) {
-    redirect(access.reason === "configuration" ? "/admin/login?setup=required" : "/admin/login");
+    redirect(access.reason === "configuration" ? "/admin/login?setup=required" : access.reason === "forbidden" ? "/admin/login?error=unauthorised" : "/admin/login");
   }
   return access.user;
 }
