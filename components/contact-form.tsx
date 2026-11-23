@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ArrowUpRight, CheckCircle2, Send } from "lucide-react";
+import { Send } from "lucide-react";
 
 const serviceOptions = [
   "Custom software development",
@@ -80,7 +80,7 @@ export function ContactForm() {
       </label>
       {status === "error" && (
         <p className="form-notice form-notice-error" role="alert">
-          The enquiry form is ready, but the company email has not been configured yet. Please contact BC Labs through your existing channel or configure NEXT_PUBLIC_CONTACT_EMAIL before launch.
+          The enquiry form is ready, but the company email has not been configured yet. Configure NEXT_PUBLIC_CONTACT_EMAIL before launch so visitors can send their enquiry.
         </p>
       )}
       {status === "ready" && (
