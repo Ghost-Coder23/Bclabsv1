@@ -35,20 +35,20 @@ export function ContactForm() {
     }
 
     const data = new FormData(form);
-    const subject = encodeURIComponent(\`Project enquiry — \${String(data.get("name"))}\`);
+    const subject = encodeURIComponent(`Project enquiry — ${String(data.get("name"))}`);
     const body = encodeURIComponent(
       [
-        \`Name: \${data.get("name")}\`,
-        \`Organisation: \${data.get("organisation") || "Not provided"}\`,
-        \`Email: \${data.get("email")}\`,
-        \`Country: \${data.get("country") || "Not provided"}\`,
-        \`Service: \${data.get("service")}\`,
+        `Name: ${data.get("name")}`,
+        `Organisation: ${data.get("organisation") || "Not provided"}`,
+        `Email: ${data.get("email")}`,
+        `Country: ${data.get("country") || "Not provided"}`,
+        `Service: ${data.get("service")}`,
         "",
         "Project details:",
         String(data.get("message")),
-      ].join("\\n")
+      ].join("\n")
     );
-    window.location.href = \`mailto:\${email}?subject=\${subject}&body=\${body}\`;
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     setStatus("ready");
   }
 
