@@ -1,20 +1,27 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
 
 const serviceOptions = [
-  "Custom software development",
-  "ERP & Odoo solutions",
-  "Education technology",
-  "Cloud & DevOps",
-  "Automation & integrations",
-  "Technology consultancy",
-  "Not sure yet",
+  { slug: "custom-software", value: "Custom software development" },
+  { slug: "erp-odoo", value: "ERP & Odoo solutions" },
+  { slug: "education-technology", value: "Education technology" },
+  { slug: "cloud-devops", value: "Cloud & DevOps" },
+  { slug: "automation-integrations", value: "Automation & integrations" },
+  { slug: "it-consultancy", value: "Technology consultancy" },
+  { slug: "not-sure", value: "Not sure yet" },
 ];
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "error" | "ready">("idle");
+  const [service, setService] = useState("");
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("service");
+    const match = serviceOptions.find((option) => option.slug === requested);
+    if (match) setService(match.value);
+  }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,20 +35,20 @@ export function ContactForm() {
     }
 
     const data = new FormData(form);
-    const subject = encodeURIComponent(`Project enquiry — ${String(data.get("name"))}`);
+    const subject = encodeURIComponent(\`Project enquiry — \${String(data.get("name"))}\`);
     const body = encodeURIComponent(
       [
-        `Name: ${data.get("name")}`,
-        `Organisation: ${data.get("organisation") || "Not provided"}`,
-        `Email: ${data.get("email")}`,
-        `Country: ${data.get("country") || "Not provided"}`,
-        `Service: ${data.get("service")}`,
+        \`Name: \${data.get("name")}\`,
+        \`Organisation: \${data.get("organisation") || "Not provided"}\`,
+        \`Email: \${data.get("email")}\`,
+        \`Country: \${data.get("country") || "Not provided"}\`,
+        \`Service: \${data.get("service")}\`,
         "",
         "Project details:",
         String(data.get("message")),
-      ].join("\n")
+      ].join("\\n")
     );
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    window.location.href = \`mailto:\${email}?subject=\${subject}&body=\${body}\`;
     setStatus("ready");
   }
 
@@ -69,9 +76,9 @@ export function ContactForm() {
       </div>
       <label>
         What can we help you with? <span>*</span>
-        <select name="service" defaultValue="" required>
+        <select name="service" value={service} onChange={(event) => setService(event.target.value)} required>
           <option value="" disabled>Select a service</option>
-          {serviceOptions.map((option) => <option value={option} key={option}>{option}</option>)}
+          {serviceOptions.map((option) => <option value={option.value} key={option.slug}>{option.value}</option>)}
         </select>
       </label>
       <label>
