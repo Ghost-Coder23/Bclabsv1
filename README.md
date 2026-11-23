@@ -6,13 +6,14 @@ The official website for BC Labs & Consultancy — a full-service technology com
 
 ## Technology
 
-- Next.js 16 (App Router)
-- React 19
-- TypeScript
-- Tailwind CSS 4
+- Next.js 16 App Router
+- React 19.3 and TypeScript
+- Tailwind CSS 4.3
 - Motion for React
-- Three.js / React Three Fiber
 - Lucide icons
+- CSS-based layered depth and motion effects for the current 3D-inspired hero
+
+The first milestone prioritises a fast, responsive experience. A WebGL/Three.js scene can be introduced later where it adds clear value.
 
 ## Getting started
 
@@ -25,9 +26,24 @@ npm run dev
 
 Open http://localhost:3000.
 
+## Quality checks
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
+
+A GitHub Actions workflow runs these checks on pushes and pull requests to `main`.
+
 ## Environment
 
-Copy `.env.example` to `.env.local` when configuring integrations. No backend credentials are required for the current frontend starter.
+Copy `.env.example` to `.env.local` and configure:
+
+- `NEXT_PUBLIC_CONTACT_EMAIL` — required for the mailto-based project enquiry form.
+- `NEXT_PUBLIC_SITE_URL` — canonical production URL used for metadata and sitemap generation.
+
+No contact details, client logos, testimonials or project results are fabricated. The public portfolio and editorial topics are clearly marked as being prepared.
 
 ## Brand system
 
@@ -38,8 +54,14 @@ Copy `.env.example` to `.env.local` when configuring integrations. No backend cr
 - Violet: `#875CFF`
 - Space Grotesk + Inter
 
-## Project status
+Brand assets are available in `public/brand`.
 
-Initial website foundation: responsive homepage, reusable brand components, service overview, company introduction, process, project CTA and contact enquiry interface.
+## Website pages
 
-Contact details, client logos, testimonials and case-study outcomes remain configurable and are not fabricated.
+- Home
+- About
+- Services
+- Solutions
+- Our Work
+- Insights
+- Contact
