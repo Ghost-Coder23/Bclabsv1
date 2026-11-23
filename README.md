@@ -38,8 +38,8 @@ GitHub Actions runs linting, type checking and a production build on pushes and 
 
 Copy `.env.example` to `.env.local` and configure:
 
-- `NEXT_PUBLIC_CONTACT_EMAIL` — required for the current mailto-based project enquiry form.
 - `NEXT_PUBLIC_SITE_URL` — canonical production URL used for metadata and sitemap generation.
+- The Supabase settings listed in the “Supabase setup” section below — required for enquiry storage and the admin workspace.
 
 No client logos, testimonials or project results are fabricated. The public portfolio and editorial topics are clearly marked as being prepared.
 
@@ -95,18 +95,18 @@ The builder does not quote prices or promise that every module can be combined w
 
 ## Private admin dashboard
 
-The owner workspace is available at \`/admin\`. It includes enquiry totals, a recent activity view, the full enquiry pipeline, status tracking and private internal notes. Public contact-form submissions are written to Supabase rather than handed off to the visitor's email application.
+The owner workspace is available at `/admin`. It includes enquiry totals, a recent activity view, the full enquiry pipeline, status tracking and private internal notes. Public contact-form submissions are written to Supabase rather than handed off to the visitor's email application.
 
 ### Supabase setup
 
 1. Create a Supabase project for BC Labs.
-2. Open the Supabase SQL Editor and run \`supabase/migrations/20261123000100_contact_submissions.sql\`.
+2. Open the Supabase SQL Editor and run `supabase/migrations/20261123000100_contact_submissions.sql`.
 3. In Supabase Authentication, create the owner account with email and password. Disable public sign-ups; administrator accounts should be created by the owner.
-4. Add the following environment variables to Vercel and your local \`.env.local\`:
-   - \`NEXT_PUBLIC_SUPABASE_URL\`
-   - \`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY\`
-   - \`SUPABASE_SERVICE_ROLE_KEY\` — server-side only; never expose this in browser code.
-   - \`ADMIN_EMAILS\` — comma-separated allowlist of administrator email addresses.
-5. Redeploy the site and sign in at \`/admin/login\`.
+4. Add the following environment variables to Vercel and your local `.env.local`:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY` — server-side only; never expose this in browser code.
+   - `ADMIN_EMAILS` — comma-separated allowlist of administrator email addresses.
+5. Redeploy the site and sign in at `/admin/login`.
 
-The contact submissions table has row-level security enabled and denies direct access to public and authenticated browser roles. The Next.js server uses the service-role key only after validating admin access. Never add the service-role key to a \`NEXT_PUBLIC_\` variable.
+The contact submissions table has row-level security enabled and denies direct browser access to public and authenticated roles. The public form can only submit through the validated Next.js contact endpoint. Dashboard reads and updates require a verified Supabase session and an email match against `ADMIN_EMAILS`. The service-role key remains server-side and must never be added to a `NEXT_PUBLIC_` variable.
