@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type MutableRefObject } from "react";
+import { useEffect, useRef, useState, type MutableRefObject, type ReactNode } from "react";
 import { can3D, prefersStill } from "@/lib/capability";
 import type { Inputs } from "@/lib/scenes";
 import type { Mounted } from "@/lib/runner";
@@ -9,7 +9,7 @@ type Canvas3DProps = {
   kind: string;
   className?: string;
   label: string;
-  fallback: React.ReactNode;
+  fallback: ReactNode;
   inputs?: MutableRefObject<Inputs>;
   tick?: unknown;
   globalPointer?: boolean;
